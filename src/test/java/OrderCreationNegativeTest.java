@@ -30,13 +30,13 @@ public class OrderCreationNegativeTest {
 
         Response response = orderClient.createOrder(ingredients, accessToken);
 
-        assertEquals(SC_BAD_REQUEST, response.getStatusCode());
+        assertEquals("Status code isn't equal to 400", SC_BAD_REQUEST, response.getStatusCode());
 
-        assertFalse(response.getBody().path("success"));
+        assertFalse("Success value isn't false", response.getBody().path("success"));
 
         String expectedMessage = "Ingredient ids must be provided";
         String actualMessage = response.getBody().path("message");
-        assertEquals(expectedMessage, actualMessage);
+        assertEquals("Incorrect message", expectedMessage, actualMessage);
     }
 
     @Test
@@ -49,6 +49,6 @@ public class OrderCreationNegativeTest {
 
         Response response = orderClient.createOrder(ingredients, accessToken);
 
-        assertEquals(SC_INTERNAL_SERVER_ERROR, response.getStatusCode());
+        assertEquals("Status code isn't equal to 500", SC_INTERNAL_SERVER_ERROR, response.getStatusCode());
     }
 }

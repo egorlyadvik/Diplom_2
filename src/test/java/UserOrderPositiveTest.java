@@ -50,7 +50,7 @@ public class UserOrderPositiveTest {
         User user = User.getRandomUser();
         userClient = new UserClient();
         Response userCreationResponse = userClient.createUser(user);
-        assertEquals(SC_OK, userCreationResponse.getStatusCode());
+        assertEquals("Status code isn't equal to 200", SC_OK, userCreationResponse.getStatusCode());
         accessToken = userCreationResponse.getBody().path("accessToken");
 
         List<String> ingredientsList = ingredientsClient.getIngredientsList();
@@ -72,13 +72,13 @@ public class UserOrderPositiveTest {
 
         Response response = orderClient.getUserOrders(accessToken);
 
-        assertEquals(expectedStatusCode, response.getStatusCode());
+        assertEquals("Incorrect status code", expectedStatusCode, response.getStatusCode());
 
-        assertTrue(response.getBody().path("success"));
+        assertTrue("Success value isn't true", response.getBody().path("success"));
 
         List<Order> expectedOrders = getExpectedOrders();
         List<LinkedHashMap> actualOrders = response.getBody().path("orders");
-        assertEquals(expectedOrders.size(), actualOrders.size());
+        assertEquals("Incorrect order number", expectedOrders.size(), actualOrders.size());
     }
 
     private void createExpectedNumberOfOrders(int expectedNumberOfOrders) {

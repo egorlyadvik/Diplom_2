@@ -29,7 +29,7 @@ public class UserChangeProfilePositiveTest {
     @Parameterized.Parameters(name = "Пользователь = {index}, статус код = {1}")
     public static Object[][] getProfileData() {
         Response creationResponse = staticUserClient.createUser(staticUser);
-        assertEquals(SC_OK, creationResponse.getStatusCode());
+        assertEquals("Status code isn't equal to 200", SC_OK, creationResponse.getStatusCode());
         accessToken = creationResponse.getBody().path("accessToken");
 
         return new Object[][]{
@@ -51,16 +51,16 @@ public class UserChangeProfilePositiveTest {
     public void userCanChangeProfile() {
         Response changingResponse = userClient.changeUserProfile(UserProfileData.from(user), accessToken);
 
-        assertEquals(expectedStatusCode, changingResponse.getStatusCode());
+        assertEquals("Incorrect status code", expectedStatusCode, changingResponse.getStatusCode());
 
-        assertTrue(changingResponse.getBody().path("success"));
+        assertTrue("Success value isn't true", changingResponse.getBody().path("success"));
 
         String expectedUserEmail = user.getEmail();
         String actualUserEmail = changingResponse.getBody().path("user.email");
-        assertEquals(expectedUserEmail, actualUserEmail);
+        assertEquals("Incorrect user email", expectedUserEmail, actualUserEmail);
 
         String expectedUserName = user.getName();
         String actualUserName = changingResponse.getBody().path("user.name");
-        assertEquals(expectedUserName, actualUserName);
+        assertEquals("Incorrect user name", expectedUserName, actualUserName);
     }
 }

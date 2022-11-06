@@ -39,7 +39,7 @@ public class OrderCreationPositiveTest {
         User user = User.getRandomUser();
         userClient = new UserClient();
         Response userCreationResponse = userClient.createUser(user);
-        assertEquals(SC_OK, userCreationResponse.getStatusCode());
+        assertEquals("Status code isn't equal to 200", SC_OK, userCreationResponse.getStatusCode());
         userCreationAccessToken = userCreationResponse.getBody().path("accessToken");
 
         return new Object[][]{
@@ -68,14 +68,14 @@ public class OrderCreationPositiveTest {
 
         Response response = orderClient.createOrder(ingredients, accessToken);
 
-        assertEquals(expectedStatusCode, response.getStatusCode());
+        assertEquals("Incorrect status code", expectedStatusCode, response.getStatusCode());
 
         String orderName = response.getBody().path("name");
-        assertThat(orderName, is(notNullValue()));
+        assertThat("There isn't name value", orderName, is(notNullValue()));
 
         int orderNumber = response.getBody().path("order.number");
-        assertThat(orderNumber, is(notNullValue()));
+        assertThat("There isn't order number value", orderNumber, is(notNullValue()));
 
-        assertTrue(response.getBody().path("success"));
+        assertTrue("Success value isn't true", response.getBody().path("success"));
     }
 }

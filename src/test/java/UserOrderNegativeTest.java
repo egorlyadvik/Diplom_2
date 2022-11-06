@@ -26,12 +26,12 @@ public class UserOrderNegativeTest {
 
         Response response = orderClient.getUserOrders(accessToken);
 
-        assertEquals(SC_UNAUTHORIZED, response.getStatusCode());
+        assertEquals("Status code isn't equal to 401", SC_UNAUTHORIZED, response.getStatusCode());
 
-        assertFalse(response.getBody().path("success"));
+        assertFalse("Success value isn't false", response.getBody().path("success"));
 
         String expectedMessage = "You should be authorised";
         String actualMessage = response.getBody().path("message");
-        assertEquals(expectedMessage, actualMessage);
+        assertEquals("Incorrect message", expectedMessage, actualMessage);
     }
 }

@@ -27,12 +27,12 @@ public class UserLoginNegativeTest {
     public void userWithIncorrectEmailAndPasswordCanNotLogin() {
         Response response = userClient.loginUser(UserCredentials.from(user));
 
-        assertEquals(SC_UNAUTHORIZED, response.getStatusCode());
+        assertEquals("Status code isn't equal to 401", SC_UNAUTHORIZED, response.getStatusCode());
 
-        assertFalse(response.getBody().path("success"));
+        assertFalse("Success value isn't false", response.getBody().path("success"));
 
         String expectedMessage = "email or password are incorrect";
         String actualMessage = response.getBody().path("message");
-        assertEquals(expectedMessage, actualMessage);
+        assertEquals("Incorrect message", expectedMessage, actualMessage);
     }
 }

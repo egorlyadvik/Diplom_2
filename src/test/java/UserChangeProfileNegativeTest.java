@@ -47,16 +47,16 @@ public class UserChangeProfileNegativeTest {
     @Description("Profile data can't be changed without authorization returns status code 401, flag success: false, correct error message")
     public void userCanNotChangeProfileWithoutAuthorization() {
         Response creationResponse = userClient.createUser(User.getRandomUser());
-        assertEquals(SC_OK, creationResponse.getStatusCode());
+        assertEquals("Status code isn't equal to 200", SC_OK, creationResponse.getStatusCode());
         accessToken = creationResponse.getBody().path("accessToken");
 
         Response changingResponse = userClient.changeUserProfile(UserProfileData.from(user), "");
 
-        assertEquals(expectedStatusCode, changingResponse.getStatusCode());
+        assertEquals("Incorrect status code", expectedStatusCode, changingResponse.getStatusCode());
 
-        assertFalse(changingResponse.getBody().path("success"));
+        assertFalse("Success value isn't false", changingResponse.getBody().path("success"));
 
         String actualMessage = changingResponse.getBody().path("message");
-        assertEquals(expectedMessage, actualMessage);
+        assertEquals("Incorrect message", expectedMessage, actualMessage);
     }
 }

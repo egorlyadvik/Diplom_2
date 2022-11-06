@@ -36,22 +36,22 @@ public class UserCreationPositiveTest {
     public void userCanBeCreated() {
         Response response = userClient.createUser(user);
 
-        assertEquals(SC_OK, response.getStatusCode());
+        assertEquals("Status code isn't equal to 200", SC_OK, response.getStatusCode());
 
-        assertTrue(response.getBody().path("success"));
+        assertTrue("Success value isn't true", response.getBody().path("success"));
 
         String expectedUserEmail = response.getBody().path("user.email");
         String actualUserEmail = user.getEmail();
-        assertEquals(expectedUserEmail, actualUserEmail);
+        assertEquals("Incorrect user email", expectedUserEmail, actualUserEmail);
 
         String expectedUserName = response.getBody().path("user.name");
         String actualUserName = user.getName();
-        assertEquals(expectedUserName, actualUserName);
+        assertEquals("Incorrect user name", expectedUserName, actualUserName);
 
         accessToken = response.getBody().path("accessToken");
-        assertThat(accessToken, allOf(is(notNullValue()), startsWith("Bearer ")));
+        assertThat("Incorrect access token", accessToken, allOf(is(notNullValue()), startsWith("Bearer ")));
 
         String refreshToken = response.getBody().path("refreshToken");
-        assertNotNull(refreshToken);
+        assertNotNull("Refresh token is null", refreshToken);
     }
 }

@@ -34,13 +34,13 @@ public class UserCreationNegativeTest {
 
             Response response = userClient.createUser(user);
 
-            assertEquals(SC_FORBIDDEN, response.getStatusCode());
+            assertEquals("Status code isn't equal to 403", SC_FORBIDDEN, response.getStatusCode());
 
-            assertFalse(response.getBody().path("success"));
+            assertFalse("Success value isn't false", response.getBody().path("success"));
 
             String expectedMessage = "User already exists";
             String actualMessage = response.getBody().path("message");
-            assertEquals(expectedMessage, actualMessage);
+            assertEquals("Incorrect message", expectedMessage, actualMessage);
         }
     }
 
@@ -73,12 +73,12 @@ public class UserCreationNegativeTest {
         public void userWithoutRequiredDataCanNotBeCreated() {
             Response response = userClient.createUser(user);
 
-            assertEquals(expectedStatusCode, response.getStatusCode());
+            assertEquals("Incorrect status code", expectedStatusCode, response.getStatusCode());
 
-            assertFalse(response.getBody().path("success"));
+            assertFalse("Success value isn't false", response.getBody().path("success"));
 
             String actualMessage = response.getBody().path("message");
-            assertEquals(expectedMessage, actualMessage);
+            assertEquals("Incorrect message", expectedMessage, actualMessage);
         }
     }
 }
